@@ -957,7 +957,8 @@ function updateTimer() {
 
             // Si une nouvelle map vient de commencer,
             // on ignore l'ancien timer jusqu'à recevoir
-            // une valeur supérieure à 2 minutes.
+            // une valeur strictement supérieure
+// au dernier timer reçu pour l'ancienne map.
             if (waitingForNewMapTimer) {
 
     // Tant que le timer reçu n'est pas STRICTEMENT supérieur
@@ -980,20 +981,26 @@ function updateTimer() {
 lastServerTimerSeconds = data.seconds;
 
 
-            // Calcule l'âge de la donnée reçue
             const elapsedSeconds = Math.max(
-                0,
-                Math.floor((Date.now() - data.updatedAt) / 1000)
-            );
+    0,
+    Math.floor((Date.now() - data.updatedAt) / 1000)
+);
 
-            // Reconstitue le timer actuel
-            timerSeconds = Math.max(
-                0,
-                data.seconds - elapsedSeconds
-            );
+const serverTimerSeconds = Math.max(
+    0,
+    data.seconds - elapsedSeconds
+);
 
-            timerLoaded = true;
-            displayTimer();
+// Première valeur reçue : synchronisation immédiate.
+// Ensuite, correction uniquement si l'écart atteint 5 secondes.
+if (
+    !timerLoaded ||
+    Math.abs(serverTimerSeconds - timerSeconds) >= 5
+) {
+    timerSeconds = serverTimerSeconds;
+    timerLoaded = true;
+    displayTimer();
+}
 
         })
         .catch(error => {
