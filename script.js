@@ -677,7 +677,7 @@ if (globalLeaderboardContainer) {
 let globalLeaderboard = [];
 
 
-    const playersPerPage = 25;
+    const playersPerPage = 20;
 
     let currentGlobalPage = 1;
 
