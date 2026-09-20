@@ -1,0 +1,490 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background-color: #111318;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+/* ========================================
+   BANDEAU SUPERIEUR
+   ======================================== */
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    padding: 18px 40px 15px;
+
+    background-color: #1b1e25;
+}
+
+/* Ligne supérieure */
+
+.header-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 20px;
+
+    min-height: 75px;
+}
+
+
+/* ========================================
+   CURRENT MAP + TIME LEFT
+   ======================================== */
+
+.current-info {
+    display: flex;
+    align-items: stretch;
+
+    background-color: #121419;
+
+    border: 1px solid #343842;
+    border-radius: 8px;
+
+    overflow: hidden;
+}
+
+.round-nav-button {
+    width: 52px;
+    height: 52px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    border: 1px solid #3b404b;
+    border-radius: 50%;
+
+    background-color: #121419;
+    color: white;
+
+    font-size: 25px;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s,
+        border-color 0.2s,
+        background-color 0.2s;
+}
+
+.round-nav-button:hover {
+    transform: scale(1.08);
+
+    border-color: #2997d6;
+    background-color: #242832;
+}
+
+
+/* Parties Current Map et Time Left */
+
+.current-map,
+.time-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 10px 25px;
+}
+
+
+/* Séparation entre Map et Timer */
+
+.time-left {
+    border-left: 1px solid #343842;
+}
+
+
+/* Petits titres */
+
+.info-title {
+    margin-bottom: 5px;
+
+    color: #888d98;
+
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+}
+
+
+/* Nom de la map */
+
+.current-map-name {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+
+/* ========================================
+   HORLOGE
+   ======================================== */
+
+.flip-clock {
+    display: flex;
+    align-items: center;
+
+    gap: 3px;
+}
+
+
+/* Chaque chiffre */
+
+.flip-clock span {
+    position: relative;
+
+    min-width: 22px;
+    padding: 4px 5px;
+
+    text-align: center;
+
+    color: white;
+    background-color: #242832;
+
+    border: 1px solid #3b404b;
+    border-radius: 3px;
+
+    font-family: "Courier New", monospace;
+    font-size: 20px;
+    font-weight: bold;
+
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.4);
+}
+
+
+/* Ligne horizontale typique des anciennes horloges */
+
+.flip-clock span::after {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    top: 50%;
+
+    width: 100%;
+    height: 1px;
+
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+
+/* Deux points */
+
+.flip-clock b {
+    margin: 0 2px;
+
+    color: #f4d03f;
+
+    font-size: 20px;
+}
+
+/* ========================================
+   FILET BLEU -> JAUNE
+   ======================================== */
+
+header::after {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 3px;
+
+    background: linear-gradient(
+        to right,
+        #2997d6,
+        #f4d03f
+    );
+}
+
+/* Contenu */
+
+main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px;
+}
+
+main h2 {
+    margin-top: 0;
+    font-size: 28px;
+}
+
+/* Grille des maps */
+
+.map-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 25px;
+}
+
+
+/* Carte d'une map */
+
+.map-card {
+    overflow: hidden;
+
+    background-color: #1b1e25;
+
+    border: 1px solid #30343d;
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.map-card:hover {
+    transform: translateY(-5px);
+
+    border-color: transparent;
+
+    background:
+        linear-gradient(#1b1e25, #1b1e25) padding-box,
+        linear-gradient(to right, #2997d6, #f4d03f) border-box;
+}
+
+
+/* Thumbnail */
+
+.map-thumbnail {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+
+    display: block;
+    object-fit: cover;
+
+    background-color: #292d36;
+}
+
+
+/* Nom de la map */
+
+.map-card h3 {
+    margin: 0;
+    padding: 15px;
+
+    font-size: 18px;
+}
+
+
+/* Adaptation aux petits écrans */
+
+@media (max-width: 900px) {
+
+    .map-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .map-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+.blue {
+    color: #2997d6;
+}
+
+.yellow {
+    color: #f4d03f;
+}
+
+.round-nav-button svg {
+    width: 25px;
+    height: 25px;
+
+    fill: currentColor;
+}
+
+.maps-button {
+    color: #2997d6;
+}
+
+.leaderboard-button {
+    color: #f4d03f;
+}
+
+/* ========================================
+   FILTRES DES MAPS
+   ======================================== */
+
+.map-filters {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+
+    margin-bottom: 30px;
+}
+
+.filter-button {
+    padding: 9px 18px;
+
+    color: #aeb3bd;
+    background-color: #1b1e25;
+
+    border: 1px solid #343842;
+    border-radius: 20px;
+
+    font-size: 13px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.filter-button:hover {
+    color: white;
+    border-color: #2997d6;
+}
+
+.filter-button.active {
+    color: white;
+
+    border-color: transparent;
+
+    background:
+        linear-gradient(#242832, #242832) padding-box,
+        linear-gradient(to right, #2997d6, #f4d03f) border-box;
+}
+
+.round-nav-button {
+    text-decoration: none;
+}
+
+/* ========================================
+   PAGE MAP
+   ======================================== */
+
+.map-page {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+}
+
+.map-page > h1 {
+    text-align: center;
+
+    margin-top: 0;
+    margin-bottom: 40px;
+
+    font-size: 32px;
+}
+
+
+/* Sections */
+
+.map-section {
+    margin-bottom: 45px;
+}
+
+.map-section h2 {
+    margin-bottom: 15px;
+
+    font-size: 20px;
+}
+
+
+/* ========================================
+   VIDEO GPS
+   ======================================== */
+
+.video-container {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+
+    background-color: #1b1e25;
+
+    border: 1px solid #30343d;
+    border-radius: 10px;
+
+    overflow: hidden;
+}
+
+.video-container iframe {
+    width: 100%;
+    height: 100%;
+
+    border: none;
+}
+
+.no-gps {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #888d98;
+
+    font-size: 16px;
+}
+
+/* ========================================
+   LEADERBOARD D'UNE MAP
+   ======================================== */
+
+#map-leaderboard {
+    overflow: hidden;
+
+    background-color: #1b1e25;
+
+    border: 1px solid #30343d;
+    border-radius: 10px;
+}
+
+.leaderboard-row {
+    display: grid;
+
+    grid-template-columns: 70px 1fr 120px;
+
+    align-items: center;
+
+    padding: 14px 20px;
+
+    border-bottom: 1px solid #30343d;
+}
+
+.leaderboard-row:last-child {
+    border-bottom: none;
+}
+
+.leaderboard-rank {
+    color: #888d98;
+
+    font-weight: bold;
+}
+
+.leaderboard-player {
+    font-weight: bold;
+}
+
+.leaderboard-time {
+    text-align: right;
+
+    color: #f4d03f;
+
+    font-family: "Courier New", monospace;
+    font-weight: bold;
+}
