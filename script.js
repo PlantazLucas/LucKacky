@@ -165,7 +165,7 @@ function updateCurrentMap() {
             }
 
             // Une nouvelle map vient d'être détectée
-            else if (data.number !== currentMapNumber) {
+else if (data.number !== currentMapNumber) {
 
     // Mémorise le temps restant de l'ancienne map
     previousMapTimer = lastServerTimerSeconds;
@@ -178,8 +178,6 @@ function updateCurrentMap() {
     document.getElementById("timer-s1").textContent = "?";
     document.getElementById("timer-s2").textContent = "?";
 }
-
-
 
             mapNumber.textContent = "#" + data.number;
 
@@ -642,7 +640,6 @@ updateMapLeaderboard();
 setInterval(updateMapLeaderboard, 10000);
 
 }
-
 
 // ========================================
 // OUVERTURE DES PAGES DE MAPS
