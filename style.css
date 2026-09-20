@@ -336,7 +336,8 @@ main h2 {
     margin-bottom: 30px;
 }
 
-.filter-button {
+.filter-button,
+.leaderboard-filter-button {
     padding: 9px 18px;
 
     color: #aeb3bd;
@@ -358,7 +359,8 @@ main h2 {
     border-color: #2997d6;
 }
 
-.filter-button.active {
+.filter-button.active,
+.leaderboard-filter-button.active {
     color: white;
 
     border-color: transparent;
@@ -466,6 +468,29 @@ main h2 {
     border-bottom: 1px solid #30343d;
 }
 
+.leaderboard-header {
+    display: grid;
+
+    grid-template-columns: 70px 1fr 120px;
+
+    align-items: center;
+
+    padding: 12px 20px;
+
+    color: #888d98;
+    background-color: #121419;
+
+    border-bottom: 1px solid #30343d;
+
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.leaderboard-header span:last-child {
+    text-align: right;
+}
+
 .leaderboard-row:last-child {
     border-bottom: none;
 }
@@ -487,4 +512,189 @@ main h2 {
 
     font-family: "Courier New", monospace;
     font-weight: bold;
+}
+
+/* ========================================
+   PAGINATION LEADERBOARD
+   ======================================== */
+
+#leaderboard-pagination {
+    display: flex;
+    justify-content: flex-end;
+
+    gap: 4px;
+
+    margin-top: 10px;
+}
+
+
+.pagination-button {
+    min-width: 30px;
+    height: 30px;
+
+    padding: 0 7px;
+
+    color: #888d98;
+    background: transparent;
+
+    border: 1px solid transparent;
+    border-radius: 5px;
+
+    font-size: 13px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+
+.pagination-button:hover:not(:disabled) {
+    color: white;
+
+    background-color: #242832;
+    border-color: #343842;
+}
+
+
+.pagination-button.active {
+    color: white;
+
+    background-color: #242832;
+    border-color: #2997d6;
+
+    font-weight: bold;
+}
+
+
+.pagination-button:disabled {
+    opacity: 0.25;
+    cursor: default;
+}
+
+/* ========================================
+   LEADERBOARD GENERAL
+   ======================================== */
+
+.global-leaderboard-page {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+}
+
+.global-leaderboard-page h1 {
+    margin-top: 0;
+    margin-bottom: 30px;
+
+    text-align: center;
+}
+
+
+#global-leaderboard {
+    overflow: hidden;
+
+    background-color: #1b1e25;
+
+    border: 1px solid #30343d;
+    border-radius: 10px;
+}
+
+
+.global-leaderboard-header,
+.global-leaderboard-row {
+    display: grid;
+
+    grid-template-columns: 70px 1fr 120px 120px;
+
+    align-items: center;
+
+    padding: 14px 20px;
+}
+
+
+/* Aligne FINISHES et AVERAGE avec leurs valeurs */
+.global-leaderboard-header span:nth-child(3),
+.global-leaderboard-row span:nth-child(3),
+.global-leaderboard-header span:nth-child(4),
+.global-leaderboard-row span:nth-child(4) {
+    text-align: right;
+}
+
+
+.global-leaderboard-header {
+    color: #888d98;
+    background-color: #121419;
+
+    border-bottom: 1px solid #30343d;
+
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+
+.global-leaderboard-row {
+    border-bottom: 1px solid #30343d;
+}
+
+
+.global-leaderboard-row:last-child {
+    border-bottom: none;
+}
+
+
+.global-rank {
+    color: #888d98;
+
+    font-weight: bold;
+}
+
+
+.global-player {
+    font-weight: bold;
+}
+
+
+.global-finishes,
+.global-average {
+    text-align: right;
+
+    font-weight: bold;
+}
+
+
+.global-average {
+    color: #f4d03f;
+}
+
+
+/* Pagination */
+
+#global-leaderboard-pagination {
+    display: flex;
+    justify-content: flex-end;
+
+    gap: 4px;
+
+    margin-top: 10px;
+}
+
+.leaderboard-title {
+    display: flex;
+    justify-content: center;
+}
+
+.leaderboard-title-label {
+    padding: 10px 18px;
+
+    color: white;
+    background-color: #242832;
+
+    border: 1px solid #2997d6;
+    border-radius: 6px;
+
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 1px;
+
+    cursor: default;
 }

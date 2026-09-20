@@ -97,9 +97,9 @@ if (siteHeader) {
                         CURRENT MAP
                     </span>
 
-                    <span class="current-map-name">
+                    <span class="current-map-name" id="current-map-name">
                         <span class="blue">Luc</span><span class="yellow">Kacky</span>
-                        <span class="blue">#7</span>
+                        <span class="blue" id="current-map-number">#--</span>
                     </span>
 
                 </div>
@@ -112,11 +112,11 @@ if (siteHeader) {
                     </span>
 
                     <div class="flip-clock">
-                        <span>0</span>
-                        <span>8</span>
+                        <span id="timer-m1">0</span>
+                        <span id="timer-m2">0</span>
                         <b>:</b>
-                        <span>4</span>
-                        <span>2</span>
+                        <span id="timer-s1">0</span>
+                        <span id="timer-s2">0</span>
                     </div>
 
                 </div>
@@ -140,6 +140,64 @@ if (siteHeader) {
 }
 
 // ========================================
+// MAP EN COURS
+// ========================================
+
+let currentMapNumber = null;
+let waitingForNewMapTimer = false;
+let previousMapTimer = null;
+
+function updateCurrentMap() {
+
+    fetch("https://luckacky-api.plantaz-perso.workers.dev/current-map")
+        .then(response => response.json())
+        .then(data => {
+
+            const mapNumber = document.getElementById("current-map-number");
+
+            if (!mapNumber || !data.number) {
+                return;
+            }
+
+            // Première récupération au chargement du site
+            if (currentMapNumber === null) {
+                currentMapNumber = data.number;
+            }
+
+            // Une nouvelle map vient d'être détectée
+            else if (data.number !== currentMapNumber) {
+
+    // Mémorise le temps restant de l'ancienne map
+    previousMapTimer = lastServerTimerSeconds;
+
+    currentMapNumber = data.number;
+    waitingForNewMapTimer = true;
+
+    document.getElementById("timer-m1").textContent = "?";
+    document.getElementById("timer-m2").textContent = "?";
+    document.getElementById("timer-s1").textContent = "?";
+    document.getElementById("timer-s2").textContent = "?";
+}
+
+
+
+            mapNumber.textContent = "#" + data.number;
+
+        })
+        .catch(error => {
+            console.error("Unable to load current map:", error);
+        });
+}
+
+
+// Charge immédiatement la map
+updateCurrentMap();
+
+
+// Puis vérifie toutes les 10 secondes
+setInterval(updateCurrentMap, 1000);
+
+// ========================================
 // DONNEES DES MAPS
 // ========================================
 
@@ -152,97 +210,97 @@ const mapsData = {
 
     2: {
         name: "LucKacky #2",
-        youtubeId: ""
+        youtubeId: "9vMGflQ1YPE"
     },
 
     3: {
         name: "LucKacky #3",
-        youtubeId: ""
+        youtubeId: "uvtdJ_5zO2k"
     },
 
     4: {
         name: "LucKacky #4",
-        youtubeId: ""
+        youtubeId: "t9_zdLl0oCk"
     },
 
     5: {
         name: "LucKacky #5",
-        youtubeId: ""
+        youtubeId: "Kx2kqJpbBSU"
     },
 
     6: {
         name: "LucKacky #6",
-        youtubeId: ""
+        youtubeId: "1IGf7dg2cB4"
     },
 
     7: {
         name: "LucKacky #7",
-        youtubeId: ""
+        youtubeId: "XEPBm5migtM"
     },
 
     8: {
         name: "LucKacky #8",
-        youtubeId: ""
+        youtubeId: "kHEtYPFAFmU"
     },
 
     9: {
         name: "LucKacky #9",
-        youtubeId: ""
+        youtubeId: "WShy5hu8jjk"
     },
 
     10: {
         name: "LucKacky #10",
-        youtubeId: ""
+        youtubeId: "odhi8K7Dhug"
     },
 
     11: {
         name: "LucKacky #11",
-        youtubeId: ""
+        youtubeId: "rceS2R6Xelg"
     },
 
     12: {
         name: "LucKacky #12",
-        youtubeId: ""
+        youtubeId: "Ycy8GGO8k20"
     },
 
     13: {
         name: "LucKacky #13",
-        youtubeId: ""
+        youtubeId: "mSoCVXGNCSo"
     },
 
     14: {
         name: "LucKacky #14",
-        youtubeId: ""
+        youtubeId: "3dlysiR9WT8"
     },
 
     15: {
         name: "LucKacky #15",
-        youtubeId: ""
+        youtubeId: "lroAQVuAw5A"
     },
 
     16: {
         name: "LucKacky #16",
-        youtubeId: ""
+        youtubeId: "AbpHy-kP65Q"
     },
 
     17: {
         name: "LucKacky #17",
-        youtubeId: ""
+        youtubeId: "AWY7wOH-fJM"
     },
 
     18: {
         name: "LucKacky #18",
-        youtubeId: ""
+        youtubeId: "Edb2YmHimVo"
     },
 
     19: {
         name: "LucKacky #19",
-        youtubeId: ""
+        youtubeId: "485waP9WFME"
     },
 
     20: {
         name: "LucKacky #20",
-        youtubeId: ""
+        youtubeId: "6JBPGwq8z1A"
     }
 
 };
@@ -293,48 +351,298 @@ if (mapTitle) {
 
     }
 
-    // ========================================
-    // FAUX LEADERBOARD
-    // ========================================
+// ========================================
+// LEADERBOARD REEL DE LA MAP
+// ========================================
 
-    const fakeLeaderboard = [
-        { player: "PlayerOne", time: "0:42.15" },
-        { player: "RedoutableLucas", time: "0:43.28" },
-        { player: "KackyPlayer", time: "0:44.02" },
-        { player: "AnotherPlayer", time: "0:45.67" },
-        { player: "LastFinisher", time: "0:51.34" }
-    ];
+let mapLeaderboard = [];
+
+const leaderboardContainer =
+    document.getElementById("map-leaderboard");
+
+const paginationContainer =
+    document.getElementById("leaderboard-pagination");
+
+const playersPerPage = 15;
+
+let currentPage = 1;
 
 
-    const leaderboardContainer =
-        document.getElementById("map-leaderboard");
+// ========================================
+// FORMATAGE DU TEMPS
+// ========================================
+
+function formatMapTime(timeMs) {
+
+    const totalCentiseconds = Math.floor(timeMs / 10);
+
+    const minutes =
+        Math.floor(totalCentiseconds / 6000);
+
+    const seconds =
+        Math.floor((totalCentiseconds % 6000) / 100);
+
+    const centiseconds =
+        totalCentiseconds % 100;
+
+    return (
+        minutes +
+        ":" +
+        String(seconds).padStart(2, "0") +
+        "." +
+        String(centiseconds).padStart(2, "0")
+    );
+}
 
 
-    fakeLeaderboard.forEach((entry, index) => {
+// ========================================
+// AFFICHAGE DU LEADERBOARD
+// ========================================
 
-        const row = document.createElement("div");
+function displayLeaderboardPage(page) {
+
+    const totalPages =
+        Math.max(
+            1,
+            Math.ceil(mapLeaderboard.length / playersPerPage)
+        );
+
+    page = Math.max(1, Math.min(page, totalPages));
+
+    currentPage = page;
+
+    leaderboardContainer.innerHTML = "";
+
+
+    // Header
+
+    const leaderboardHeader =
+        document.createElement("div");
+
+    leaderboardHeader.className = "leaderboard-header";
+
+    leaderboardHeader.innerHTML = `
+        <span>#</span>
+        <span>PLAYER</span>
+        <span>TIME</span>
+    `;
+
+    leaderboardContainer.appendChild(leaderboardHeader);
+
+
+    // Joueurs de cette page
+
+    const start =
+        (currentPage - 1) * playersPerPage;
+
+    const end =
+        start + playersPerPage;
+
+    const players =
+        mapLeaderboard.slice(start, end);
+
+
+    players.forEach(entry => {
+
+        const row =
+            document.createElement("div");
 
         row.className = "leaderboard-row";
 
-        row.innerHTML = `
-            <span class="leaderboard-rank">
-                ${index + 1}
-            </span>
 
-            <span class="leaderboard-player">
-                ${entry.player}
-            </span>
+        const rank =
+            document.createElement("span");
 
-            <span class="leaderboard-time">
-                ${entry.time}
-            </span>
-        `;
+        rank.className = "leaderboard-rank";
+        rank.textContent = entry.rank;
+
+
+        const player =
+            document.createElement("span");
+
+        player.className = "leaderboard-player";
+        player.textContent = entry.nick;
+
+
+        const time =
+            document.createElement("span");
+
+        time.className = "leaderboard-time";
+        time.textContent =
+            formatMapTime(entry.time);
+
+
+        row.appendChild(rank);
+        row.appendChild(player);
+        row.appendChild(time);
 
         leaderboardContainer.appendChild(row);
 
     });
 
+
+    displayPagination();
 }
+
+
+// ========================================
+// PAGINATION
+// ========================================
+
+function displayPagination() {
+
+    paginationContainer.innerHTML = "";
+
+    const totalPages =
+        Math.ceil(mapLeaderboard.length / playersPerPage);
+
+
+    if (totalPages <= 1) {
+        return;
+    }
+
+
+    createPageButton(
+        "«",
+        1,
+        currentPage === 1
+    );
+
+    createPageButton(
+        "‹",
+        currentPage - 1,
+        currentPage === 1
+    );
+
+
+    let startPage =
+        Math.max(1, currentPage - 2);
+
+    let endPage =
+        Math.min(
+            totalPages,
+            startPage + 4
+        );
+
+    startPage =
+        Math.max(
+            1,
+            endPage - 4
+        );
+
+
+    for (
+        let page = startPage;
+        page <= endPage;
+        page++
+    ) {
+
+        createPageButton(
+            page,
+            page,
+            false,
+            page === currentPage
+        );
+
+    }
+
+
+    createPageButton(
+        "›",
+        currentPage + 1,
+        currentPage === totalPages
+    );
+
+    createPageButton(
+        "»",
+        totalPages,
+        currentPage === totalPages
+    );
+}
+
+
+// ========================================
+// CREATION D'UN BOUTON
+// ========================================
+
+function createPageButton(
+    text,
+    page,
+    disabled = false,
+    active = false
+) {
+
+    const button =
+        document.createElement("button");
+
+    button.textContent = text;
+
+    button.className = "pagination-button";
+
+
+    if (active) {
+        button.classList.add("active");
+    }
+
+
+    if (disabled) {
+        button.disabled = true;
+    }
+
+
+    button.addEventListener("click", () => {
+
+        displayLeaderboardPage(page);
+
+    });
+
+
+    paginationContainer.appendChild(button);
+}
+
+
+// ========================================
+// RECUPERATION DU LEADERBOARD CLOUDFLARE
+// ========================================
+
+function updateMapLeaderboard() {
+
+    fetch(
+        `https://luckacky-api.plantaz-perso.workers.dev/map-leaderboard/${mapId}`
+    )
+        .then(response => response.json())
+        .then(data => {
+
+            if (!Array.isArray(data.records)) {
+                return;
+            }
+
+            mapLeaderboard = data.records;
+
+            // Garde la page actuellement affichée
+            displayLeaderboardPage(currentPage);
+
+        })
+        .catch(error => {
+
+            console.error(
+                "Unable to load map leaderboard:",
+                error
+            );
+
+        });
+}
+
+
+// Charge immédiatement le leaderboard
+updateMapLeaderboard();
+
+
+// Puis vérifie les nouvelles données toutes les 10 secondes
+setInterval(updateMapLeaderboard, 10000);
+
+}
+
 
 // ========================================
 // OUVERTURE DES PAGES DE MAPS
@@ -351,3 +659,366 @@ mapCards.forEach((card, index) => {
     });
 
 });
+
+// ========================================
+// LEADERBOARD GENERAL
+// ========================================
+
+const globalLeaderboardContainer =
+    document.getElementById("global-leaderboard");
+
+const globalPaginationContainer =
+    document.getElementById("global-leaderboard-pagination");
+
+
+if (globalLeaderboardContainer) {
+
+// ========================================
+// DONNEES REELLES XAseco
+// ========================================
+
+let globalLeaderboard = [];
+
+
+    const playersPerPage = 25;
+
+    let currentGlobalPage = 1;
+
+
+    // ========================================
+    // AFFICHAGE D'UNE PAGE
+    // ========================================
+
+    function displayGlobalLeaderboardPage(page) {
+
+        const totalPages =
+            Math.ceil(globalLeaderboard.length / playersPerPage);
+
+        page = Math.max(1, Math.min(page, totalPages));
+
+        currentGlobalPage = page;
+
+        globalLeaderboardContainer.innerHTML = "";
+
+
+        // Header
+        const header = document.createElement("div");
+
+        header.className = "global-leaderboard-header";
+
+        header.innerHTML = `
+            <span>#</span>
+            <span>PLAYER</span>
+            <span>FINISHES</span>
+            <span>AVERAGE</span>
+        `;
+
+        globalLeaderboardContainer.appendChild(header);
+
+
+        // Joueurs
+        const start =
+            (currentGlobalPage - 1) * playersPerPage;
+
+        const end =
+            start + playersPerPage;
+
+        const players =
+            globalLeaderboard.slice(start, end);
+
+
+        players.forEach((entry, index) => {
+
+            const rank = start + index + 1;
+
+            const row = document.createElement("div");
+
+            row.className = "global-leaderboard-row";
+
+            row.innerHTML = `
+                <span class="global-rank">
+                    ${rank}
+                </span>
+
+                <span class="global-player">
+                    ${entry.nick}
+                </span>
+
+                <span class="global-finishes">
+                    ${entry.maps}
+                </span>
+
+                <span class="global-average">
+                    ${entry.average}
+                </span>
+            `;
+
+            globalLeaderboardContainer.appendChild(row);
+
+        });
+
+
+        displayGlobalPagination();
+
+    }
+
+
+    // ========================================
+    // PAGINATION
+    // ========================================
+
+    function displayGlobalPagination() {
+
+        globalPaginationContainer.innerHTML = "";
+
+        const totalPages =
+            Math.ceil(globalLeaderboard.length / playersPerPage);
+
+
+        if (totalPages <= 1) {
+            return;
+        }
+
+
+        createGlobalPageButton(
+            "«",
+            1,
+            currentGlobalPage === 1
+        );
+
+        createGlobalPageButton(
+            "‹",
+            currentGlobalPage - 1,
+            currentGlobalPage === 1
+        );
+
+
+        let startPage =
+            Math.max(1, currentGlobalPage - 2);
+
+        let endPage =
+            Math.min(totalPages, startPage + 4);
+
+        startPage =
+            Math.max(1, endPage - 4);
+
+
+        for (
+            let page = startPage;
+            page <= endPage;
+            page++
+        ) {
+
+            createGlobalPageButton(
+                page,
+                page,
+                false,
+                page === currentGlobalPage
+            );
+
+        }
+
+
+        createGlobalPageButton(
+            "›",
+            currentGlobalPage + 1,
+            currentGlobalPage === totalPages
+        );
+
+        createGlobalPageButton(
+            "»",
+            totalPages,
+            currentGlobalPage === totalPages
+        );
+
+    }
+
+
+    function createGlobalPageButton(
+        text,
+        page,
+        disabled = false,
+        active = false
+    ) {
+
+        const button =
+            document.createElement("button");
+
+        button.textContent = text;
+        button.className = "pagination-button";
+
+
+        if (active) {
+            button.classList.add("active");
+        }
+
+
+        if (disabled) {
+            button.disabled = true;
+        }
+
+
+        button.addEventListener("click", () => {
+
+            displayGlobalLeaderboardPage(page);
+
+        });
+
+
+        globalPaginationContainer.appendChild(button);
+
+    }
+
+
+// ========================================
+// RECUPERATION DU LEADERBOARD XAseco
+// ========================================
+
+function updateGlobalLeaderboard() {
+
+    fetch("https://luckacky-api.plantaz-perso.workers.dev/leaderboard")
+        .then(response => response.json())
+        .then(data => {
+
+            globalLeaderboard = data.map(entry => ({
+                nick: entry.nick,
+                maps: entry.maps,
+                average: Number(entry.avg).toFixed(2)
+            }));
+
+            // Garde la page actuellement affichée
+            displayGlobalLeaderboardPage(currentGlobalPage);
+
+        })
+        .catch(error => {
+            console.error("Unable to load leaderboard:", error);
+        });
+}
+
+
+// Charge immédiatement le leaderboard
+updateGlobalLeaderboard();
+
+
+// Puis vérifie les nouvelles données toutes les 10 secondes
+setInterval(updateGlobalLeaderboard, 10000);
+
+}
+
+// ========================================
+// TIMER EN DIRECT
+// ========================================
+
+let timerSeconds = 0;
+let timerLoaded = false;
+let lastServerTimerSeconds = null;
+
+function displayTimer() {
+
+    if (waitingForNewMapTimer) {
+        return;
+    }
+
+    const secondsLeft = Math.max(0, Math.floor(timerSeconds));
+
+    const minutes = Math.floor(secondsLeft / 60);
+    const seconds = secondsLeft % 60;
+
+    const formattedMinutes = String(minutes).padStart(2, "0");
+    const formattedSeconds = String(seconds).padStart(2, "0");
+
+    const m1 = document.getElementById("timer-m1");
+    const m2 = document.getElementById("timer-m2");
+    const s1 = document.getElementById("timer-s1");
+    const s2 = document.getElementById("timer-s2");
+
+    if (!m1 || !m2 || !s1 || !s2) {
+        return;
+    }
+
+    m1.textContent = formattedMinutes[0];
+    m2.textContent = formattedMinutes[1];
+    s1.textContent = formattedSeconds[0];
+    s2.textContent = formattedSeconds[1];
+}
+
+function updateTimer() {
+
+    fetch("https://luckacky-api.plantaz-perso.workers.dev/timer")
+        .then(response => response.json())
+        .then(data => {
+
+            if (
+                typeof data.seconds !== "number" ||
+                typeof data.updatedAt !== "number"
+            ) {
+                return;
+            }
+
+            // Si une nouvelle map vient de commencer,
+            // on ignore l'ancien timer jusqu'à recevoir
+            // une valeur supérieure à 2 minutes.
+            if (waitingForNewMapTimer) {
+
+    // Tant que le timer reçu n'est pas STRICTEMENT supérieur
+    // à la dernière valeur serveur de l'ancienne map,
+    // on reste sur ??:??
+    if (
+        previousMapTimer !== null &&
+        data.seconds <= previousMapTimer
+    ) {
+        return;
+    }
+
+    // Le timer est strictement supérieur :
+    // c'est celui de la nouvelle map.
+    waitingForNewMapTimer = false;
+    previousMapTimer = null;
+}
+
+// Mémorise la dernière valeur brute reçue de Cloudflare
+lastServerTimerSeconds = data.seconds;
+
+
+            // Calcule l'âge de la donnée reçue
+            const elapsedSeconds = Math.max(
+                0,
+                Math.floor((Date.now() - data.updatedAt) / 1000)
+            );
+
+            // Reconstitue le timer actuel
+            timerSeconds = Math.max(
+                0,
+                data.seconds - elapsedSeconds
+            );
+
+            timerLoaded = true;
+            displayTimer();
+
+        })
+        .catch(error => {
+            console.error("Unable to load timer:", error);
+        });
+}
+
+// Récupère immédiatement le timer du serveur
+updateTimer();
+
+// Resynchronisation avec le serveur toutes les 10 secondes
+setInterval(updateTimer, 2000);
+
+// Entre deux synchronisations, le site fait descendre
+// lui-même le timer chaque seconde
+setInterval(() => {
+
+    if (!timerLoaded) {
+        return;
+    }
+
+    if (timerSeconds > 0) {
+        timerSeconds--;
+    }
+
+    displayTimer();
+
+}, 1000);
